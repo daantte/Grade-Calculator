@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 
 import { v4 as uuidv4 } from "uuid";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 export default function GradeCalculator() {
   const [productSplit, setProductSplit] = useState(0);
@@ -203,15 +204,7 @@ export default function GradeCalculator() {
         <meta name="description" content="Lightweight Grade Calculator" />
       </Head>
 
-      <script
-        async
-        src="https://www.googletagmanager.com/gtag/js?id=G-6211167L7F"
-      ></script>
-      <script>
-        window.dataLayer = window.dataLayer || []; function gtag()
-        {dataLayer.push(arguments)}
-        gtag('js', new Date()); gtag('config', 'G-6211167L7F');
-      </script>
+      <GoogleAnalytics gaId="G-6211167L7F" />
 
       <h1 className="text-2xl mb-4">{percentage}%</h1>
       <h1 className="text-2xl mb-4">{letterGrade}</h1>
