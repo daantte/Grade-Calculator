@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Giest-Regular";
+  src: url("../fonts/Geist-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Giest-SemiBold";
+  src: url("../fonts/Geist-SemiBold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Giest-UltraBlack";
+  src: url("../fonts/Geist-UltraBlack.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Giest-Medium";
+  src: url("../fonts/Geist-Medium.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Giest-Light";
+  src: url("../fonts/Geist-Light.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Giest-Bold";
+  src: url("../fonts/Geist-Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Giest-Black";
+  src: url("../fonts/Geist-Black.otf") format("opentype");
+}
