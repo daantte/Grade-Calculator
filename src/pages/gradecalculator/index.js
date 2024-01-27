@@ -198,212 +198,260 @@ export default function GradeCalculator() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <Head>
-        <title>[BETA] Grade Calculator</title>
-        <meta name="description" content="Lightweight Grade Calculator" />
-      </Head>
-
-      <GoogleAnalytics gaId="G-6211167L7F" />
-
-      <h1 className="text-2xl mb-4">{percentage}%</h1>
-      <h1 className="text-2xl mb-4">{letterGrade}</h1>
-      <h1 className="text-2xl mb-4">Grade Calculator</h1>
-      {/* product split */}
-      <div className="mb-4">
-        <button
-          onClick={resetValues}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Reset
-        </button>
-
-        <label
-          htmlFor="product"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Product Split
-        </label>
-        <input
-          type="number"
-          id="product"
-          className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
-          value={productSplit}
-          onChange={(e) => setProductSplit(e.target.value)}
-        />
-      </div>
-      {/* process split */}
-      <div className="mb-4">
-        <label
-          htmlFor="process"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Process Split
-        </label>
-        <input
-          type="number"
-          id="process"
-          className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
-          value={processSplit}
-          onChange={(e) => setProcessSplit(e.target.value)}
-        />
-      </div>
-      {/* process assignments */}
-      {processAssignments.map((assignment) => (
-        <div key={assignment.id} className="mb-4 p-4 border rounded">
-          <label
-            htmlFor={`current-${assignment.id}`}
-            className="block text-sm font-medium text-gray-700"
-          >
-            Current Process Assignment {assignment.id + 1}
-          </label>
-          <input
-            type="number"
-            id={`current-${assignment.id}`}
-            className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
-            defaultValue={assignment.current || 0}
-            onBlur={(e) => {
-              const newAssignments = [...processAssignments];
-              const oldCurrent = processAssignments.find(
-                (a) => a.id === assignment.id
-              ).current;
-              processAssignments.find((a) => a.id === assignment.id).current =
-                e.target.value === "" ? 0 : Number(e.target.value);
-              setProcessAssignments(newAssignments);
-              setTotalCurrentProcessAssignments(
-                totalCurrentProcessAssignments -
-                  oldCurrent +
-                  processAssignments.find((a) => a.id === assignment.id).current
-              );
-            }}
-          />
-
-          <label
-            htmlFor={`total-${assignment.id}`}
-            className="block text-sm font-medium text-gray-700"
-          >
-            Total Process Assignment {assignment.id + 1}
-          </label>
-          <input
-            type="number"
-            id={`total-${assignment.id}`}
-            className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
-            defaultValue={assignment.total || 0}
-            onBlur={(e) => {
-              const newAssignments = [...processAssignments];
-              const oldTotal = processAssignments.find(
-                (a) => a.id === assignment.id
-              ).total;
-              processAssignments.find((a) => a.id === assignment.id).total =
-                e.target.value === "" ? 0 : Number(e.target.value);
-              setProcessAssignments(newAssignments);
-              setTotalProcessAssignments(
-                totalProcessAssignments -
-                  oldTotal +
-                  processAssignments.find((a) => a.id === assignment.id).total
-              );
-            }}
-          />
-          <button
-            onClick={() => removeProcessAssignment(assignment.id)}
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Remove
-          </button>
-        </div>
-      ))}
-
-      {/* product assignments */}
-      <div className="mb-4">
-        {/* Add your product assignments input fields here */}
-        {productAssignments.map((assignment) => (
-          <div key={assignment.id} className="mb-4 p-4 border rounded">
-            <label
-              htmlFor={`product-current-${assignment.id}`}
-              className="block text-sm font-medium text-gray-700"
-            >
-              Current Product Assignment {assignment.id + 1}
-            </label>
-            <input
-              type="number"
-              id={`product-current-${assignment.id}`}
-              className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
-              defaultValue={assignment.current || 0}
-              onBlur={(e) => {
-                const newAssignments = [...productAssignments];
-                const oldCurrent = productAssignments.find(
-                  (a) => a.id === assignment.id
-                ).current;
-                productAssignments.find((a) => a.id === assignment.id).current =
-                  e.target.value === "" ? 0 : Number(e.target.value);
-                setProductAssignments(newAssignments);
-                setTotalCurrentProductAssignments(
-                  totalCurrentProductAssignments -
-                    oldCurrent +
-                    productAssignments.find((a) => a.id === assignment.id)
-                      .current
-                );
-              }}
-            />
-
-            <label
-              htmlFor={`product-total-${assignment.id}`}
-              className="block text-sm font-medium text-gray-700"
-            >
-              Total Product Assignment {assignment.id + 1}
-            </label>
-            <input
-              type="number"
-              id={`product-total-${assignment.id}`}
-              className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
-              defaultValue={assignment.total || 0}
-              onBlur={(e) => {
-                const newAssignments = [...productAssignments];
-                const oldTotal = productAssignments.find(
-                  (a) => a.id === assignment.id
-                ).total;
-                productAssignments.find((a) => a.id === assignment.id).total =
-                  e.target.value === "" ? 0 : Number(e.target.value);
-                setProductAssignments(newAssignments);
-                setTotalProductAssignments(
-                  totalProductAssignments -
-                    oldTotal +
-                    productAssignments.find((a) => a.id === assignment.id).total
-                );
-              }}
-            />
-            <button
-              onClick={() => removeProductAssignment(assignment.id)}
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Remove
-            </button>
+    <div className="bg-black">
+      <div className="">
+        <header className="fixed border-b-[1px] pl-0 w-full border-solid border-[#2d2d2d] bg-[#0a0a0a]">
+          <div className="h-[100px] max-w-5xl m-auto w-full flex items-center justify-between p-[1.25rem]">
+            <div className="text-white font-giest-bold text-2xl">
+              Grade Calculator
+            </div>
+            <div className="flex space-between justify-center items-center">
+              <div className="text-white font-giest-bold text-3xl">
+                {letterGrade}
+              </div>
+              <div className="text-4xl px-4 pb-[3px] text-secondary font-giest-light">
+                {" "}
+                |{" "}
+              </div>
+              <div className="text-white font-giest-bold text-3xl">
+                {percentage}%
+              </div>
+            </div>
           </div>
-        ))}
-      </div>
+        </header>
+        <Head>
+          <title>[BETA] Grade Calculator</title>
+          <meta name="description" content="Lightweight Grade Calculator" />
+        </Head>
 
-      <button
-        onClick={addProcessAssignment}
-        className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Add Process Assignment
-      </button>
+        <GoogleAnalytics gaId="G-6211167L7F" />
+        <div className="flex !justify-center w-full !max-w-full">
+          <div className="max-w-5xl w-full m-auto items-center p-[1.25rem] flex">
+            <div className="px-10 w-full pt-[100px]">
+              <div className="rounded-[5px] border-[1px] border-solid border-[#252525] mb-[1000px]">
+                {/* product split */}
+                <div className="p-6 flex justify-between items-center">
+                  <div className="mb-4">
+                    <label
+                      htmlFor="product"
+                      className="text-[#e7e7e7] h-full flex text-md font-giest-medium text-primary justify-center items-center"
+                    >
+                      Product Split
+                    </label>
+                    <input
+                      type="number"
+                      id="product"
+                      className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
+                      value={productSplit}
+                      onChange={(e) => setProductSplit(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex flex-col space-between justify-center items-center">
+                    <div className="text-white font-giest-bold text-4xl">
+                      {letterGrade}
+                    </div>
+                    <div className="text-secondary font-giest-light text-[13px]">
+                      {percentage}%
+                    </div>
+                  </div>
+                  {/* process split */}
+                  <div className="mb-4">
+                    <label
+                      htmlFor="process"
+                      className="text-[#e7e7e7] h-full flex text-md font-giest-medium text-primary justify-center items-center"
+                    >
+                      Process Split
+                    </label>
+                    <input
+                      type="number"
+                      id="process"
+                      className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
+                      value={processSplit}
+                      onChange={(e) => setProcessSplit(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
 
-      <div className="mb-4">
-        {/* Your product assignments input fields go here */}
-        <button
-          onClick={addProductAssignment}
-          className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Add Product Assignment
-        </button>
+              {/* process assignments */}
+              {processAssignments.map((assignment) => (
+                <div key={assignment.id} className="mb-4 p-4 border rounded">
+                  <label
+                    htmlFor={`current-${assignment.id}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Current Process Assignment {assignment.id + 1}
+                  </label>
+                  <input
+                    type="number"
+                    id={`current-${assignment.id}`}
+                    className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
+                    defaultValue={assignment.current || 0}
+                    onBlur={(e) => {
+                      const newAssignments = [...processAssignments];
+                      const oldCurrent = processAssignments.find(
+                        (a) => a.id === assignment.id
+                      ).current;
+                      processAssignments.find(
+                        (a) => a.id === assignment.id
+                      ).current =
+                        e.target.value === "" ? 0 : Number(e.target.value);
+                      setProcessAssignments(newAssignments);
+                      setTotalCurrentProcessAssignments(
+                        totalCurrentProcessAssignments -
+                          oldCurrent +
+                          processAssignments.find((a) => a.id === assignment.id)
+                            .current
+                      );
+                    }}
+                  />
+
+                  <label
+                    htmlFor={`total-${assignment.id}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Total Process Assignment {assignment.id + 1}
+                  </label>
+                  <input
+                    type="number"
+                    id={`total-${assignment.id}`}
+                    className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
+                    defaultValue={assignment.total || 0}
+                    onBlur={(e) => {
+                      const newAssignments = [...processAssignments];
+                      const oldTotal = processAssignments.find(
+                        (a) => a.id === assignment.id
+                      ).total;
+                      processAssignments.find(
+                        (a) => a.id === assignment.id
+                      ).total =
+                        e.target.value === "" ? 0 : Number(e.target.value);
+                      setProcessAssignments(newAssignments);
+                      setTotalProcessAssignments(
+                        totalProcessAssignments -
+                          oldTotal +
+                          processAssignments.find((a) => a.id === assignment.id)
+                            .total
+                      );
+                    }}
+                  />
+                  <button
+                    onClick={() => removeProcessAssignment(assignment.id)}
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+
+              {/* product assignments */}
+              <div className="mb-4">
+                {/* Add your product assignments input fields here */}
+                {productAssignments.map((assignment) => (
+                  <div key={assignment.id} className="mb-4 p-4 border rounded">
+                    <label
+                      htmlFor={`product-current-${assignment.id}`}
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Current Product Assignment {assignment.id + 1}
+                    </label>
+                    <input
+                      type="number"
+                      id={`product-current-${assignment.id}`}
+                      className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
+                      defaultValue={assignment.current || 0}
+                      onBlur={(e) => {
+                        const newAssignments = [...productAssignments];
+                        const oldCurrent = productAssignments.find(
+                          (a) => a.id === assignment.id
+                        ).current;
+                        productAssignments.find(
+                          (a) => a.id === assignment.id
+                        ).current =
+                          e.target.value === "" ? 0 : Number(e.target.value);
+                        setProductAssignments(newAssignments);
+                        setTotalCurrentProductAssignments(
+                          totalCurrentProductAssignments -
+                            oldCurrent +
+                            productAssignments.find(
+                              (a) => a.id === assignment.id
+                            ).current
+                        );
+                      }}
+                    />
+
+                    <label
+                      htmlFor={`product-total-${assignment.id}`}
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Total Product Assignment {assignment.id + 1}
+                    </label>
+                    <input
+                      type="number"
+                      id={`product-total-${assignment.id}`}
+                      className="mt-1 block w-full py-2 px-3 border border-gray-300 rounded-md"
+                      defaultValue={assignment.total || 0}
+                      onBlur={(e) => {
+                        const newAssignments = [...productAssignments];
+                        const oldTotal = productAssignments.find(
+                          (a) => a.id === assignment.id
+                        ).total;
+                        productAssignments.find(
+                          (a) => a.id === assignment.id
+                        ).total =
+                          e.target.value === "" ? 0 : Number(e.target.value);
+                        setProductAssignments(newAssignments);
+                        setTotalProductAssignments(
+                          totalProductAssignments -
+                            oldTotal +
+                            productAssignments.find(
+                              (a) => a.id === assignment.id
+                            ).total
+                        );
+                      }}
+                    />
+                    <button
+                      onClick={() => removeProductAssignment(assignment.id)}
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                onClick={addProcessAssignment}
+                className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Add Process Assignment
+              </button>
+
+              <div className="mb-4">
+                {/* Your product assignments input fields go here */}
+                <button
+                  onClick={addProductAssignment}
+                  className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Add Product Assignment
+                </button>
+              </div>
+              <button
+                onClick={saveToLocalStorage}
+                className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Save
+              </button>
+              <button
+                onClick={resetValues}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-      <button
-        onClick={saveToLocalStorage}
-        className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Save
-      </button>
     </div>
   );
 }

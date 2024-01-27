@@ -15,9 +15,13 @@ module.exports = {
       colors: {
         main: "#e2e2e2",
         secondary: "#898989",
+        "bright-blue": "#0072f5",
       },
       fontFamily: {
         giest: ["Giest-Regular"],
+        "giest-bold": ["Giest-Bold"],
+        "giest-light": ["Giest-Light"],
+        "giest-medium": ["Giest-Medium"],
       },
     },
   },
